@@ -22,7 +22,7 @@ const Client = ({ client }) => {
         </p>
       </td>
 
-      <td className='p-4 flex gap-3 justify-center'>
+      <td className='p-4 flex gap-4 justify-center'>
         <button className='text-blue-500 hover:text-blue-900  uppercase font-semibold text-xs'>
           Editar
         </button>

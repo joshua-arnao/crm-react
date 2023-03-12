@@ -71,10 +71,6 @@ function Index() {
       ) : (
         <p className='text-center mt-10'></p>
       )}
-
-      {/* {clients.map((client) => (
-        <p key={client.id}>{client.name}</p>
-      ))} */}
     </>
   )
 }
