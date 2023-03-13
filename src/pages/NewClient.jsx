@@ -1,16 +1,42 @@
 import React from 'react'
-import { useNavigate, Form } from 'react-router-dom'
+import { useNavigate, Form, useActionData } from 'react-router-dom'
+import Error from '../components/Error'
 import { Form as ComponentForm } from '../components/Form'
 
-export function action() {
-  console.log('Submit')
+export async function action({ request }) {
+  const formData = await request.formData()
+  // console.log([...formData])
+
+  const data = Object.fromEntries(formData)
+  // console.log(data)
+
+  const email = formData.get('email')
+
+  //* Validación *//
+  const errors = []
+  if (Object.values(data).includes('')) {
+    errors.push('Todos los campos son Obligatorios')
+  }
+  let regex = new RegExp(
+    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  )
+  if (!regex.test(email)) {
+    errors.push('El Email no es valido')
+  }
+
+  if (Object.keys(errors).length) {
+    //* Retornar datos si hay errores *//
+    return errors
+  }
 
   return { ok: true }
 }
 
 const NewClient = () => {
+  const errors = useActionData()
   const navigate = useNavigate()
 
+  console.log(errors)
   return (
     <>
       <h1 className='font-semibold text-3xl text-blue-900'> Nuevo Cliente</h1>
@@ -28,7 +54,10 @@ const NewClient = () => {
       </div>
 
       <div className='bg-white shadow rounded-md md:w-3/4 mx-auto px-8 py-10 mt-8'>
-        <Form method='post'>
+        {errors?.length &&
+          errors.map((error, i) => <Error key={i}>{error}</Error>)}
+
+        <Form method='post' noValidate>
           <ComponentForm />
 
           <input
