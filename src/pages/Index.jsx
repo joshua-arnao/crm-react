@@ -13,6 +13,8 @@ export function loader() {
 function Index() {
   const clients = useLoaderData()
 
+  // Error Boundaries -> Errores que obtiene los errores en cualquiere lugar del componente
+
   return (
     <>
       <h1 className='font-semibold text-3xl text-blue-900'> Clientes</h1>
