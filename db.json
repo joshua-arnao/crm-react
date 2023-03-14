@@ -1,6 +1,5 @@
-
-
-  { "clients" : [
+  { 
+    "clients" : [
     {
       "id": 1,
       "name": "Juan",
@@ -36,4 +35,5 @@
       "email": "pedro@empresa.com",
       "company": "Empresa"
     }
-  ]}
+  ]
+}
