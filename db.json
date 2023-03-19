@@ -1,5 +1,5 @@
-  { 
-    "clients" : [
+{
+  "clients": [
     {
       "id": 1,
       "name": "Juan",
@@ -34,6 +34,14 @@
       "phone": 1398198938,
       "email": "pedro@empresa.com",
       "company": "Empresa"
+    },
+    {
+      "name": "Prueba",
+      "company": "Prueba",
+      "email": "prueba@correo.com",
+      "phone": "123",
+      "notes": "prueba",
+      "id": 6
     }
   ]
 }

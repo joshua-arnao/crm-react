@@ -7,6 +7,7 @@ import Layout from './components/layout'
 import NewClient, { action as newClientAction } from './pages/NewClient'
 import Index, { loader as clientsLoader } from './pages/Index'
 import ErrorPage from './components/ErrorPage'
+import EditClient, { loader as editClientLoader } from './pages/EditClient'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
         path: '/clientes/nuevo',
         element: <NewClient />,
         action: newClientAction
+      },
+
+      {
+        // Rauting Dinamico
+        path: '/clientes/:clientId/editar',
+        element: <EditClient />,
+        loader: editClientLoader,
+        errorElement: <ErrorPage />
       }
     ]
   }
