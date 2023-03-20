@@ -25,13 +25,12 @@ export async function action({ request }) {
     errors.push('El Email no es valido')
   }
 
+  //* Retornar datos si hay errores *//
   if (Object.keys(errors).length) {
-    //* Retornar datos si hay errores *//
     return errors
   }
 
   await addClient(data)
-
   return redirect('/')
 }
 

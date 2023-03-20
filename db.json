@@ -1,11 +1,12 @@
 {
   "clients": [
     {
-      "id": 1,
       "name": "Juan",
-      "phone": 102013313,
+      "company": "Empresa",
       "email": "juan@jempresacom",
-      "company": "Empresa"
+      "phone": "102013313",
+      "notes": "ASDASD",
+      "id": 1
     },
     {
       "id": 2,

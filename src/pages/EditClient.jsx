@@ -1,6 +1,13 @@
 import React from 'react'
-import { Form, useLoaderData, useNavigate } from 'react-router-dom'
-import { getClient } from '../api/clients'
+import {
+  Form,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigate
+} from 'react-router-dom'
+import { getClient, updateClient } from '../api/clients'
+import Error from '../components/Error'
 import { Form as ComponentForm } from '../components/Form'
 
 export async function loader({ params }) {
@@ -15,9 +22,37 @@ export async function loader({ params }) {
   return client
 }
 
+export async function action({ request, params }) {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+  const email = formData.get('email')
+
+  //* Validación *//
+  const errors = []
+  if (Object.values(data).includes('')) {
+    errors.push('Todos los campos son Obligatorios')
+  }
+  let regex = new RegExp(
+    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  )
+  if (!regex.test(email)) {
+    errors.push('El Email no es valido')
+  }
+
+  //* Retornar datos si hay errores *//
+  if (Object.keys(errors).length) {
+    return errors
+  }
+
+  //* Actualizar cliente *//
+  await updateClient(params.clientId, data)
+  return redirect('/')
+}
+
 const EditClient = () => {
   const navigate = useNavigate()
   const client = useLoaderData()
+  const errors = useActionData()
 
   return (
     <>
@@ -36,8 +71,8 @@ const EditClient = () => {
       </div>
 
       <div className='bg-white shadow rounded-md md:w-3/4 mx-auto px-8 py-10 mt-8'>
-        {/* {errors?.length &&
-          errors.map((error, i) => <Error key={i}>{error}</Error>)} */}
+        {errors?.length &&
+          errors.map((error, i) => <Error key={i}>{error}</Error>)}
 
         <Form method='post' noValidate>
           <ComponentForm client={client} />
@@ -45,7 +80,7 @@ const EditClient = () => {
           <input
             type='submit'
             className='mt-5 w-full bg-green-800 p-3 uppercase font-medium text-white text-base rounded-md hover:cursor-pointer hover:bg-green-900'
-            value='Registrar Cliente'
+            value='Guardar Cliente'
           />
         </Form>
       </div>
